@@ -1,0 +1,39 @@
+This repo shows a simple example of SDL2 with TTF enabled. It also shows how using `-s SAFE_HEAP=1` when compiling with emscripten causes emscripten to detect a memory alignment error at runtime whenever `TTF_RenderText_Solid` is executed.
+
+How to compile and run.
+
+Compile and run natively (this should show a simple SDL2 window with text drawn inside it):
+`make run`
+
+Compile to wasm using emscripten
+`make web`
+
+Then you have to serve the `web` directory as a website.  Visit the index.html file ine there.
+
+Since `-s SAFE_HEAP=1` is set, you'll see a memory alignment error in the console when a call is made to `TTF_RenderText_Solid`.
+
+```
+alignment fault
+abort @ test.js:1444
+test.js:1449 Uncaught (in promise) RuntimeError: abort(alignment fault) at Error
+    at jsStackTrace (test.js:2006)
+    at stackTrace (test.js:2021)
+    at abort (test.js:1447)
+    at alignfault (test.js:866)
+    at SAFE_HEAP_LOAD_i64_8_8 (test.wasm:0x1d47b6)
+    at Render_Line (test.wasm:0xa26d)
+    at TTF_Render_Internal (test.wasm:0x7d3e)
+    at TTF_RenderText_Solid (test.wasm:0x78f6)
+    at Program::Program() (test.wasm:0x4ced)
+    at _GLOBAL__sub_I_Test.cpp (test.wasm:0x5908)
+    at abort (test.js:1449)
+    at alignfault (test.js:866)
+    at SAFE_HEAP_LOAD_i64_8_8 (test.wasm:0x1d47b6)
+    at Render_Line (test.wasm:0xa26d)
+    at TTF_Render_Internal (test.wasm:0x7d3e)
+    at TTF_RenderText_Solid (test.wasm:0x78f6)
+    at Program::Program() (test.wasm:0x4ced)
+    at _GLOBAL__sub_I_Test.cpp (test.wasm:0x5908)
+    at __wasm_call_ctors (test.wasm:0x4b76)
+    at callRuntimeCallbacks (test.js:1937)
+```

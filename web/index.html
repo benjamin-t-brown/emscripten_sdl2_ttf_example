@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <title>TTF Test</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="512" height="512"></canvas>
+  </body>
+  <footer>
+    <script>
+      var Module = {
+        arguments: [],
+        canvas: (function () {
+          const canvas = document.getElementById('canvas');
+          if (canvas) {
+            canvas.addEventListener(
+              'webglcontextlost',
+              function (e) {
+                console.error(
+                  'WebGL context lost. You will need to reload the page.'
+                );
+              },
+              false
+            );
+          }
+          return canvas;
+        })(),
+        onAbort: function () {
+          console.error('Program encountered an unknown error.');
+        },
+        totalDependencies: 0,
+        ccall: function () {},
+      };
+    </script>
+    <script src="test.js"></script>
+  </footer>
+</html>

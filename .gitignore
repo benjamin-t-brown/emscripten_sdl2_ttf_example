@@ -1,0 +1,6 @@
+*.o
+web/test.data
+web/test.js
+web/test.wasm
+Test
+test.exe
